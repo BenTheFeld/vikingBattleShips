@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 player = Flask(__name__)
 
-bordLength = 10
+boardLength = 10
 
 
 class square:
@@ -13,9 +13,9 @@ class square:
         self.shipId = None
 
 
-p1Matrix = [[square() for i in range(bordLength)] for i in range(bordLength)]
+p1Matrix = [[square() for i in range(boardLength)] for i in range(boardLength)]
 
-p2Matrix = [[square() for i in range(bordLength)] for i in range(bordLength)]
+p2Matrix = [[square() for i in range(boardLength)] for i in range(boardLength)]
 
 turn = "p1"
 
@@ -31,7 +31,7 @@ for row, col in [(3, 4), (4, 4), (5, 4), (6, 4)]:
 
 @player.route("/")
 def lobby():
-    return "hello"
+    return render_template("lobby.html")
 
 
 @player.route("/player1")
