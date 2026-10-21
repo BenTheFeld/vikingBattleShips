@@ -17,6 +17,5 @@ def player1():
 def player2():
     return "player2"
 
-
 if __name__ == "__main__":
     player.run(debug=True)
