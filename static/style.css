@@ -5,8 +5,23 @@ table {
 td {
   width: 32px;
   height: 32px;
+  padding: 0;
   border: 1px solid #333;
   background: #4a90d9;
+}
+
+td form {
+  margin: 0;
+}
+
+td button {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
 td.ship {
@@ -15,4 +30,9 @@ td.ship {
 
 td.hit {
   background: #c0392b;
+}
+
+td.selected {
+  outline: 3px solid #ffd700;
+  outline-offset: -3px;
 }

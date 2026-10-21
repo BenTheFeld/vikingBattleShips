@@ -1,17 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-<table>
-  {% for row in matrix %}
-  <tr>
-    {% for square in row %}
-    <td class="{{ 'ship' if square.hasShip else 'empty' }}{{ ' hit' if square.isHit else '' }}"></td>
-    {% endfor %}
-  </tr>
-  {% endfor %}
-</table>
-</body>
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    {% if selected_row is defined %}
+    <p>
+      Selected square: row {{ selected_row + 1 }}, column {{ selected_col + 1 }}
+    </p>
+    {% endif %}
+    <table>
+      {% for row in matrix %} {% set row_index = loop.index0 %}
+      <tr>
+        {% for square in row %}
+        <td
+          class="{{ 'ship' if square.hasShip else 'empty' }}{{ ' hit' if square.isHit else '' }}{{ ' selected' if selected_row is defined and selected_row == row_index and selected_col == loop.index0 else '' }}"
+        >
+          <form method="post">
+            <input type="hidden" name="row" value="{{ row_index }}" />
+            <input type="hidden" name="col" value="{{ loop.index0 }}" />
+            <button type="submit" aria-label="Select square"></button>
+          </form>
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
 </html>
