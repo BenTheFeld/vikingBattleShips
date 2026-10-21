@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<table>
+  {% for row in matrix %}
+  <tr>
+    {% for square in row %}
+    <td class="{{ 'ship' if square.hasShip else 'empty' }}{{ ' hit' if square.isHit else '' }}"></td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+</body>
+</html>
