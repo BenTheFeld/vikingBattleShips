@@ -1,1 +1,19 @@
-<h1>hello people, I am under the water, please help me</h1>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='styles.css')}}"
+    />
+  </head>
+  <body>
+    <h1>Who are you playing as?</h1>
+    <nav>
+      <a href="{{url_for('player1')}}">Play as Player 1</a>
+      <a href="{{url_for('player2')}}">Play as Player 2</a>
+    </nav>
+  </body>
+</html>
