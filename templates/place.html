@@ -21,7 +21,13 @@
           data-orientation="horizontal"
         >
           {% for i in range(fleet[ship]) %}
-          <div class="tray-piece" data-ship="{{ ship }}"></div>
+          <div class="tray-piece">
+            <img
+              class="tray-piece-img rotate"
+              src="{{ url_for('static', filename=shipImage(ship, color, 'full', i)) }}"
+              alt=""
+            />
+          </div>
           {% endfor %}
         </div>
         <button type="button" class="rotate-btn">rotate</button>
@@ -49,6 +55,9 @@
           const next = ship.dataset.orientation === "horizontal" ? "vertical" : "horizontal";
           ship.dataset.orientation = next;
           ship.classList.toggle("vertical", next === "vertical");
+          ship.querySelectorAll(".tray-piece-img").forEach((img) => {
+            img.classList.toggle("rotate", next === "horizontal");
+          });
         });
       });
 
