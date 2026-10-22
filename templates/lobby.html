@@ -11,14 +11,11 @@
   </head>
   <body>
     <h1>Who are you playing as?</h1>
+    <div class="banner-background" aria-hidden="true"></div>
     <nav>
       <a href="{{url_for('player1')}}">Play as Player 1</a>
       <a href="{{url_for('player2')}}">Play as Player 2</a>
     </nav>
-    <img
-      src="{{ url_for('static', filename='assets/banner-frame0.png') }}"
-      alt="Battleship artwork"
-    />
     <form class="music-controls" action="{{ url_for('lobby') }}" method="get">
       <button
         class="music-toggle"

@@ -3,14 +3,16 @@
 }
 
 body {
-  min-height: 100vh;
+  height: 100vh;
+  height: 100svh;
   margin: 0;
-  padding: 64px 24px;
-  display: flex;
-  flex-direction: column;
+  padding: clamp(12px, 3vh, 32px) clamp(12px, 4vw, 24px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  justify-content: center;
-  gap: 28px;
+  justify-items: center;
+  gap: clamp(8px, 2vh, 22px);
+  overflow: hidden;
   color: #f5f0df;
   font-family: Georgia, "Times New Roman", serif;
   text-align: center;
@@ -21,9 +23,15 @@ body {
 
 h1 {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 4rem);
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
   letter-spacing: 0.04em;
   text-shadow: 0 3px 14px rgb(0 0 0 / 40%);
+}
+
+.banner-background {
+  width: min(100%, 560px);
+  height: 100%;
+  background: url("assets/banner-frame0.png") center / contain no-repeat;
 }
 
 nav {
@@ -115,18 +123,23 @@ img {
   font-size: 1.25rem;
 }
 
+audio {
+  display: none;
+}
+
 @media (max-width: 480px) {
   body {
-    padding: 40px 18px;
-    gap: 22px;
+    padding: 12px;
   }
 
   nav {
     width: 100%;
-    flex-direction: column;
+    gap: 10px;
   }
 
   nav a {
-    width: 100%;
+    min-width: 0;
+    flex: 1 1 130px;
+    padding: 11px 12px;
   }
 }
