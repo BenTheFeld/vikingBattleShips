@@ -14,6 +14,15 @@ def getSqrPos():
     col = int(request.form["col"])
     return row, col
 
+def getSqrData(matrix, row, col):
+    square = matrix[row][col]
+    return {
+        "hasShip": square.hasShip,
+        "isHit": square.isHit,
+        "shipType": square.shipType,
+        "shipId": square.shipId
+    }
+
 def placeShip():
     pass
 
@@ -54,12 +63,14 @@ def lobby():
 def player1():
     if request.method == "POST":
         row, col = getSqrPos()
+        square_data = getSqrData(p1Matrix, row, col)
         print(f"Selected row {row}, column {col}")
         return render_template(
             "board.html",
             matrix=p1Matrix,
             selected_row=row,
             selected_col=col,
+            square_data=square_data
         )
     return render_template("board.html", matrix=p1Matrix)
 
@@ -67,13 +78,16 @@ def player1():
 @player.route("/player2", methods=["GET", "POST"])
 def player2():
     if request.method == "POST":
-        row, col = getSqrPos()
-        return render_template(
-            "board.html",
-            matrix=p2Matrix,
-            selected_row=row,
-            selected_col=col,
-        )
+            row, col = getSqrPos()
+            square_data = getSqrData(p2Matrix, row, col)
+            print(f"Selected row {row}, column {col}")
+            return render_template(
+                "board.html",
+                matrix=p2Matrix,
+                selected_row=row,
+                selected_col=col,
+                square_data=square_data
+            )
     return render_template("board.html", matrix=p2Matrix)
 
 if __name__ == "__main__":

@@ -10,6 +10,15 @@
     {% if selected_row is defined %}
     <p>
       Selected square: row {{ selected_row + 1 }}, column {{ selected_col + 1 }}
+      {% if square_data %}
+      <br />
+      Has Ship: {{ square_data.hasShip }}
+      <br />
+      Is Hit: {{ square_data.isHit }}
+      <br />
+      Ship Type: {{ square_data.shipType }}
+      <br />
+      Ship ID: {{ square_data.shipId }} {% endif %}
     </p>
     {% endif %}
     <table>
