@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    {% if not your_turn %}<meta http-equiv="refresh" content="3" />{% endif %}
+  </head>
+  <body>
+    <h1>{{ "Your turn!" if your_turn else "Waiting for opponent..." }}</h1>
+
+    {% if last_shot %}
+    <p>
+      {{ "Hit!" if last_shot.hit else "Miss!" }}
+      {% if last_shot.hit and last_shot.shipType %}({{ last_shot.shipType }}){% endif %}
+    </p>
+    {% endif %}
+
+    {% set matrix = own_matrix %}
+    {% set title = own_title %}
+    {% set hide_ships = false %}
+    {% set clickable = false %}
+    {% set post_url = "" %}
+    {% include "board.html" %}
+
+    {% set matrix = enemy_matrix %}
+    {% set title = enemy_title %}
+    {% set hide_ships = true %}
+    {% set clickable = your_turn %}
+    {% set post_url = fire_url %}
+    {% include "board.html" %}
+  </body>
+</html>

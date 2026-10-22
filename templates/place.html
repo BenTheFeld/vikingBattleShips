@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <h1>Place your fleet</h1>
+
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+
+    {% if remaining %}
+    <div class="fleet-tray">
+      {% for ship in remaining %}
+      <div class="tray-item">
+        <div
+          class="tray-ship"
+          draggable="true"
+          data-ship="{{ ship }}"
+          data-orientation="horizontal"
+        >
+          {% for i in range(fleet[ship]) %}
+          <div class="tray-piece" data-ship="{{ ship }}"></div>
+          {% endfor %}
+        </div>
+        <button type="button" class="rotate-btn">rotate</button>
+        <span>{{ ship }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>Fleet placed! Waiting for opponent...</p>
+    {% endif %}
+
+    <form id="placeForm" method="post" action="{{ post_url }}" style="display: none">
+      <input type="hidden" name="shipType" id="shipTypeInput" />
+      <input type="hidden" name="orientation" id="orientationInput" />
+      <input type="hidden" name="row" id="rowInput" />
+      <input type="hidden" name="col" id="colInput" />
+    </form>
+
+    {% include "board.html" %}
+
+    <script>
+      document.querySelectorAll(".rotate-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const ship = btn.previousElementSibling;
+          const next = ship.dataset.orientation === "horizontal" ? "vertical" : "horizontal";
+          ship.dataset.orientation = next;
+          ship.classList.toggle("vertical", next === "vertical");
+        });
+      });
+
+      document.querySelectorAll(".tray-ship").forEach((ship) => {
+        ship.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("shipType", ship.dataset.ship);
+          e.dataTransfer.setData("orientation", ship.dataset.orientation);
+        });
+      });
+
+      document.querySelectorAll("td[data-row]").forEach((td) => {
+        td.addEventListener("dragover", (e) => e.preventDefault());
+        td.addEventListener("drop", (e) => {
+          e.preventDefault();
+          document.getElementById("shipTypeInput").value = e.dataTransfer.getData("shipType");
+          document.getElementById("orientationInput").value = e.dataTransfer.getData("orientation");
+          document.getElementById("rowInput").value = td.dataset.row;
+          document.getElementById("colInput").value = td.dataset.col;
+          document.getElementById("placeForm").requestSubmit();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,42 +1,24 @@
-<!doctype html>
-<html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    {% if selected_row is defined %}
-    <p>
-      Selected square: row {{ selected_row + 1 }}, column {{ selected_col + 1 }}
-      {% if square_data %}
-      <br />
-      Has Ship: {{ square_data.hasShip }}
-      <br />
-      Is Hit: {{ square_data.isHit }}
-      <br />
-      Ship Type: {{ square_data.shipType }}
-      <br />
-      Ship ID: {{ square_data.shipId }} {% endif %}
-    </p>
-    {% endif %}
-    <table>
-      {% for row in matrix %} {% set row_index = loop.index0 %}
-      <tr>
-        {% for square in row %}
-        <td
-          class="{{ 'ship' if square.hasShip else 'empty' }}{{ ' hit' if square.isHit else '' }}{{ ' selected' if selected_row is defined and selected_row == row_index and selected_col == loop.index0 else '' }}"
-        >
-          <form method="post">
-            <input type="hidden" name="row" value="{{ row_index }}" />
-            <input type="hidden" name="col" value="{{ loop.index0 }}" />
-            <button type="submit" aria-label="Select square"></button>
-          </form>
-        </td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </table>
-  </body>
-</html>
+<h2>{{ title }}</h2>
+<table>
+  {% for row in matrix %}
+  {% set row_index = loop.index0 %}
+  <tr>
+    {% for square in row %}
+    <td
+      class="{{ square.css_class(hide_ships) }}"
+      data-row="{{ row_index }}"
+      data-col="{{ loop.index0 }}"
+      data-ship="{{ square.shipType if (not hide_ships or square.isHit) else '' }}"
+    >
+      {% if clickable and not square.isHit %}
+      <form method="post" action="{{ post_url }}">
+        <input type="hidden" name="row" value="{{ row_index }}" />
+        <input type="hidden" name="col" value="{{ loop.index0 }}" />
+        <button type="submit" aria-label="Fire"></button>
+      </form>
+      {% endif %}
+    </td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>

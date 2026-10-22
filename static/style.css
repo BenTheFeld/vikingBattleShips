@@ -32,7 +32,41 @@ td.hit {
   background: #c0392b;
 }
 
+td.miss {
+  background: #a9c4de;
+}
+
 td.selected {
   outline: 3px solid #ffd700;
   outline-offset: -3px;
+}
+
+.fleet-tray {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.tray-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tray-ship {
+  display: flex;
+  flex-direction: row;
+  cursor: grab;
+}
+
+.tray-ship.vertical {
+  flex-direction: column;
+}
+
+.tray-piece {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #333;
+  background: #6b4226;
 }
