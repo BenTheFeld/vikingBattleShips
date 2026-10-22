@@ -187,4 +187,4 @@ def fire_p2():
 
 
 if __name__ == "__main__":
-    player.run(debug=True, port=5002)
+    player.run(host="0.0.0.0", debug=True, port=5002)
