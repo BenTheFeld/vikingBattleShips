@@ -56,7 +56,8 @@ for row, col in [(3, 4), (4, 4), (5, 4), (6, 4)]:
 
 @player.route("/")
 def lobby():
-    return render_template("lobby.html")
+    music_playing = request.args.get("music") == "on"
+    return render_template("lobby.html", music_playing=music_playing)
 
 
 @player.route("/player1", methods=["GET", "POST"])

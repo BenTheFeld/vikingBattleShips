@@ -15,5 +15,27 @@
       <a href="{{url_for('player1')}}">Play as Player 1</a>
       <a href="{{url_for('player2')}}">Play as Player 2</a>
     </nav>
+    <img
+      src="{{ url_for('static', filename='assets/ships/3tile/full/blå_bunn_full-frame0.png') }}"
+      alt="Battleship artwork"
+    />
+    <form class="music-controls" action="{{ url_for('lobby') }}" method="get">
+      <button
+        class="music-toggle"
+        type="submit"
+        name="music"
+        value="{{ 'off' if music_playing else 'on' }}"
+      >
+        <span class="music-toggle__icon" aria-hidden="true">♫</span>
+        {{ "Music off" if music_playing else "Music on" }}
+      </button>
+    </form>
+    {% if music_playing %}
+    <audio
+      src="{{ url_for('static', filename='assets/audio/lobbyMusic.mp3') }}"
+      autoplay
+      loop
+    ></audio>
+    {% endif %}
   </body>
 </html>

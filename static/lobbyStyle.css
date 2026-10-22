@@ -1,3 +1,132 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background-color: lightblue;
+  min-height: 100vh;
+  margin: 0;
+  padding: 64px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  color: #f5f0df;
+  font-family: Georgia, "Times New Roman", serif;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(47 128 150 / 35%), transparent 55%),
+    linear-gradient(160deg, #102f43, #071923 75%);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: 0.04em;
+  text-shadow: 0 3px 14px rgb(0 0 0 / 40%);
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+nav a {
+  min-width: 190px;
+  padding: 14px 22px;
+  border: 1px solid #d9b86c;
+  border-radius: 8px;
+  color: #172b32;
+  background: linear-gradient(#f2d58e, #d5aa52);
+  box-shadow: 0 5px 14px rgb(0 0 0 / 25%);
+  font:
+    bold 1rem/1.2 Georgia,
+    "Times New Roman",
+    serif;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+nav a:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 18px rgb(0 0 0 / 35%);
+}
+
+nav a:focus-visible {
+  outline: 3px solid #fff4c7;
+  outline-offset: 4px;
+}
+
+img {
+  display: block;
+  width: min(100%, 420px);
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 10px;
+  filter: drop-shadow(0 12px 22px rgb(0 0 0 / 35%));
+}
+
+.music-controls {
+  margin: 0;
+}
+
+.music-toggle {
+  display: inline-flex;
+  min-width: 150px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid rgb(242 213 142 / 55%);
+  border-radius: 999px;
+  color: #f5f0df;
+  background: rgb(255 255 255 / 8%);
+  box-shadow: 0 5px 14px rgb(0 0 0 / 20%);
+  font:
+    bold 1rem/1.2 Georgia,
+    "Times New Roman",
+    serif;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.music-toggle:hover {
+  transform: translateY(-2px);
+  border-color: #f2d58e;
+  background: rgb(242 213 142 / 18%);
+}
+
+.music-toggle:focus-visible {
+  outline: 3px solid #fff4c7;
+  outline-offset: 4px;
+}
+
+.music-toggle__icon {
+  color: #f2d58e;
+  font-size: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 40px 18px;
+    gap: 22px;
+  }
+
+  nav {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  nav a {
+    width: 100%;
+  }
 }
