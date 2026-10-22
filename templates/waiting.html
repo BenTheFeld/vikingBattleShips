@@ -1,9 +1,18 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waiting...</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <meta http-equiv="refresh" content="3" />
   </head>
   <body>
-    <h1>Waiting for opponent to place their fleet...</h1>
+    <div class="page page--centered">
+      <div class="status-card">
+        <div class="spinner" aria-hidden="true"></div>
+        <h1>Waiting for your opponent to place their fleet&hellip;</h1>
+      </div>
+    </div>
   </body>
 </html>

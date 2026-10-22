@@ -1,33 +1,46 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viking Battleships</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     {% if not your_turn %}<meta http-equiv="refresh" content="3" />{% endif %}
   </head>
   <body>
-    <h1>{{ "Your turn!" if your_turn else "Waiting for opponent..." }}</h1>
+    <div class="page">
+      <h1 class="turn-banner {{ 'your-turn' if your_turn else 'their-turn' }}">
+        {{ "Your turn!" if your_turn else "Waiting for opponent..." }}
+      </h1>
 
-    {% if last_shot %}
-    <p>
-      {{ "Hit!" if last_shot.hit else "Miss!" }}
-      {% if last_shot.hit and last_shot.shipType %}({{ last_shot.shipType }}){% endif %}
-    </p>
-    {% endif %}
+      {% if last_shot %}
+      <p class="shot-result {{ 'hit' if last_shot.hit else 'miss' }}">
+        {{ "Hit!" if last_shot.hit else "Miss!" }}
+        {% if last_shot.hit and last_shot.shipType %}({{ last_shot.shipType }}){% endif %}
+      </p>
+      {% endif %}
 
-    {% set matrix = own_matrix %}
-    {% set title = own_title %}
-    {% set color = own_color %}
-    {% set hide_ships = false %}
-    {% set clickable = false %}
-    {% set post_url = "" %}
-    {% include "board.html" %}
+      <div class="boards">
+        <section class="board-panel">
+          {% set matrix = own_matrix %}
+          {% set title = own_title %}
+          {% set color = own_color %}
+          {% set hide_ships = false %}
+          {% set clickable = false %}
+          {% set post_url = "" %}
+          {% include "board.html" %}
+        </section>
 
-    {% set matrix = enemy_matrix %}
-    {% set title = enemy_title %}
-    {% set color = enemy_color %}
-    {% set hide_ships = true %}
-    {% set clickable = your_turn %}
-    {% set post_url = fire_url %}
-    {% include "board.html" %}
+        <section class="board-panel">
+          {% set matrix = enemy_matrix %}
+          {% set title = enemy_title %}
+          {% set color = enemy_color %}
+          {% set hide_ships = true %}
+          {% set clickable = your_turn %}
+          {% set post_url = fire_url %}
+          {% include "board.html" %}
+        </section>
+      </div>
+    </div>
   </body>
 </html>

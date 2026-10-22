@@ -1,52 +1,59 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Place your fleet</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
   <body>
-    <h1>Place your fleet</h1>
+    <div class="page">
+      <h1>Place your fleet</h1>
 
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
+      {% if error %}
+      <p class="error-banner">{{ error }}</p>
+      {% endif %}
 
-    {% if remaining %}
-    <div class="fleet-tray">
-      {% for ship in remaining %}
-      <div class="tray-item">
-        <div
-          class="tray-ship"
-          draggable="true"
-          data-ship="{{ ship }}"
-          data-orientation="horizontal"
-        >
-          {% for i in range(fleet[ship]) %}
-          <div class="tray-piece">
-            <img
-              class="tray-piece-img rotate"
-              src="{{ url_for('static', filename=shipImage(ship, color, 'full', i)) }}"
-              alt=""
-            />
+      {% if remaining %}
+      <div class="fleet-tray">
+        {% for ship in remaining %}
+        <div class="tray-item">
+          <div
+            class="tray-ship"
+            draggable="true"
+            data-ship="{{ ship }}"
+            data-orientation="horizontal"
+          >
+            {% for i in range(fleet[ship]) %}
+            <div class="tray-piece">
+              <img
+                class="tray-piece-img rotate"
+                src="{{ url_for('static', filename=shipImage(ship, color, 'full', i)) }}"
+                alt=""
+              />
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
+          <button type="button" class="rotate-btn">rotate</button>
+          <span class="tray-label">{{ ship }}</span>
         </div>
-        <button type="button" class="rotate-btn">rotate</button>
-        <span>{{ ship }}</span>
+        {% endfor %}
       </div>
-      {% endfor %}
+      {% else %}
+      <p class="status-text">Fleet placed! Waiting for opponent...</p>
+      {% endif %}
+
+      <form id="placeForm" method="post" action="{{ post_url }}" style="display: none">
+        <input type="hidden" name="shipType" id="shipTypeInput" />
+        <input type="hidden" name="orientation" id="orientationInput" />
+        <input type="hidden" name="row" id="rowInput" />
+        <input type="hidden" name="col" id="colInput" />
+      </form>
+
+      <section class="board-panel">
+        {% include "board.html" %}
+      </section>
     </div>
-    {% else %}
-    <p>Fleet placed! Waiting for opponent...</p>
-    {% endif %}
-
-    <form id="placeForm" method="post" action="{{ post_url }}" style="display: none">
-      <input type="hidden" name="shipType" id="shipTypeInput" />
-      <input type="hidden" name="orientation" id="orientationInput" />
-      <input type="hidden" name="row" id="rowInput" />
-      <input type="hidden" name="col" id="colInput" />
-    </form>
-
-    {% include "board.html" %}
 
     <script>
       document.querySelectorAll(".rotate-btn").forEach((btn) => {

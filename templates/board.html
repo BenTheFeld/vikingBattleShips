@@ -1,11 +1,12 @@
 <h2>{{ title }}</h2>
+<div class="board-scroll">
 <table>
   {% for row in matrix %}
   {% set row_index = loop.index0 %}
   <tr>
     {% for square in row %}
     <td
-      class="{{ square.css_class(hide_ships) }}"
+      class="{{ square.css_class(hide_ships) }}{{ ' fireable' if (clickable and not square.isHit) else '' }}"
       data-row="{{ row_index }}"
       data-col="{{ loop.index0 }}"
       data-ship="{{ square.shipType if (not hide_ships or square.isHit) else '' }}"
@@ -30,3 +31,4 @@
   </tr>
   {% endfor %}
 </table>
+</div>
