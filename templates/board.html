@@ -10,6 +10,14 @@
       data-col="{{ loop.index0 }}"
       data-ship="{{ square.shipType if (not hide_ships or square.isHit) else '' }}"
     >
+      {% set img = square.image_path(color, hide_ships) %}
+      {% if img %}
+      <img
+        class="ship-img{{ ' rotate' if square.orientation == 'horizontal' else '' }}"
+        src="{{ url_for('static', filename=img) }}"
+        alt=""
+      />
+      {% endif %}
       {% if clickable and not square.isHit %}
       <form method="post" action="{{ post_url }}">
         <input type="hidden" name="row" value="{{ row_index }}" />
