@@ -21,6 +21,9 @@ FLEET = {
     "5tile": 5,
 }
 
+SHIPS_PER_TYPE = 2
+TOTAL_SHIPS = len(FLEET) * SHIPS_PER_TYPE
+
 PLAYER_COLOR = {"p1": "blå", "p2": "rød"}
 
 # Maps (shipType, color, state, segment index) -> filename on disk.
@@ -94,14 +97,14 @@ def canPlace(matrix, row, col, length, orientation):
         return False
     return all(not matrix[r][c].hasShip for r, c in cells)
 
-def placeShip(matrix, row, col, shipType, orientation):
+def placeShip(matrix, row, col, shipType, orientation, shipId):
     length = FLEET[shipType]
     if not canPlace(matrix, row, col, length, orientation):
         return False
     for segment, (r, c) in enumerate(shipCells(row, col, length, orientation)):
         matrix[r][c].hasShip = True
         matrix[r][c].shipType = shipType
-        matrix[r][c].shipId = shipType
+        matrix[r][c].shipId = shipId
         matrix[r][c].segment = segment
         matrix[r][c].orientation = orientation
     return True
@@ -147,7 +150,10 @@ def otherPlayer(me):
 
 
 def renderPlacement(matrix, player_key):
-    remaining = [s for s in FLEET if s not in shipsPlaced[player_key]]
+    remaining = []
+    for shipType in FLEET:
+        placed = shipsPlaced[player_key].get(shipType, 0)
+        remaining.extend([shipType] * (SHIPS_PER_TYPE - placed))
     error = placeError[player_key]
     placeError[player_key] = None
     return render_template(
@@ -178,15 +184,17 @@ def handlePlacement(matrix, player_key):
     orientation = request.form.get("orientation", "")
     row, col = getSqrPos()
 
+    placedOfType = shipsPlaced[player_key].get(shipType, 0)
+
     if shipType not in FLEET or orientation not in ("horizontal", "vertical") or row is None:
         placeError[player_key] = "That placement didn't go through, try again."
-    elif shipType in shipsPlaced[player_key]:
-        placeError[player_key] = "Already placed that ship."
-    elif not placeShip(matrix, row, col, shipType, orientation):
+    elif placedOfType >= SHIPS_PER_TYPE:
+        placeError[player_key] = "Already placed both of that ship."
+    elif not placeShip(matrix, row, col, shipType, orientation, f"{shipType}-{placedOfType}"):
         placeError[player_key] = "Can't place there."
     else:
-        shipsPlaced[player_key][shipType] = True
-        if len(shipsPlaced[player_key]) == len(FLEET):
+        shipsPlaced[player_key][shipType] = placedOfType + 1
+        if sum(shipsPlaced[player_key].values()) == TOTAL_SHIPS:
             ready[player_key] = True
 
     return redirect(url_for(VIEW_ENDPOINT[player_key]))
